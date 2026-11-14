@@ -126,3 +126,116 @@
 - **화면 낭독기 실제 낭독**: 오류 알림은 `display:none`인 채로 문장을 넣고 바로 보이게 하는 순서라(`js/ui/login-form.js:54-63`) 낭독기마다 읽는 방식이 다를 수 있다. 실제로 들어 보고 안 읽히면 "먼저 보이게 하고 다음 프레임에 문장 넣기"로 바꾼다.
 - **움직임 줄이기를 실제로 켠 화면**, **부드러운 스크롤 모습**: 숨은 브라우저 창이라 CSS 규칙과 호출 값으로 확인했다.
 - **GitHub Pages 실제 주소**: 배포(Embed) 전이라 확인하지 않았다.
+
+## 3차 검증 — 메인 복구와 게임 연결 (2026-11-14)
+
+> 검증: Review 서브에이전트(Build와 다른 에이전트). 지침 `instructions/06-review-game-links.md`. 임시 폴더 `review-site`로 복사해 `127.0.0.1:8702`에서 확인, 확인 뒤 서버 끔. 시작 전에 sessionStorage·localStorage를 비우고 봤다.
+
+### 결과: 통과 (반드시 고칠 것 없음)
+
+### 반드시 고칠 것
+
+| # | 내용 | 위치 |
+|---|---|---|
+| — | 없음 | — |
+
+### 고치면 좋은 것
+
+| # | 내용 | 위치 | 제안 |
+|---|---|---|---|
+| 1 | 메모리 게임 주소에 학생 이름이 그대로 들어간다(`?nick=김하린`). 방문 기록·주소 공유·나중의 기록 서버 로그에 남는다. 지금은 가짜 학생이라 문제없지만 **실제 학생 이름을 쓰기 전(백엔드 연결 때)** 고치는 것이 좋다 | `js/content/games.js` `gameUrl`, `memory/config.js` | 메모리 게임이 이미 지원하는 `NICK_STORAGE_KEY`(sessionStorage) 방식으로 바꾸거나, 실명 대신 별명·번호를 넘긴다. `memory/config.js`는 다른 사람 파일이라 메모리 담당과 정한다 |
+| 2 | 게임 선택의 "효과음" 스위치를 꺼도 메모리 게임의 **배경음악**은 켜진 채 시작한다(`bgm` 값을 넘기지 않음). 지침 05대로(`sfx`만) 만든 것이라 잘못은 아님 | `js/content/games.js` | 소리를 끈 학생에게는 `bgm=0`도 넘길지 사용자와 정한다 |
+| 3 | 보석 게임 안에 메인(게임 선택)으로 돌아가는 링크가 없다. 브라우저 뒤로 가기로는 `#/select/jewel`에 잘 돌아온다 | `jewel/` | 다른 사람 게임이라 이번 범위 밖. 보석 담당에게 `../#/select` 링크를 PR로 부탁 |
+| 4 | `/favicon.ico` 404(보석·메모리 페이지에 아이콘 링크 없음, 확인용 브라우저는 우리 앱에서도 요청), `memory/music/bgm.mp3` 404(파일이 없으면 내장 멜로디로 대신하는 설계) | `jewel/index.html`, `memory/` | 동작에 영향 없음. 각 게임 담당이 원하면 아이콘 링크·음악 파일을 넣는다 |
+| 5 | 세 앱이 같은 주소(`eversunk2-tech.github.io`)의 저장소를 같이 쓴다. 지금 키는 안 겹치지만, 같은 계정의 **다른 저장소** 페이지도 같은 주소라 키가 겹칠 수 있다 | — | 새 게임을 받을 때 키 이름 앞에 게임 이름을 붙이도록 안내 (우리 앱은 이미 `funeng.` 접두어) |
+
+Build가 밝힌 알려진 문제 4가지(favicon 404, bgm.mp3 404, 보석 게임 메인 링크 없음, 주소의 학생 이름)는 모두 **이번에 반드시 고칠 것은 아니다**. 앞의 세 개는 다른 사람 게임 파일이라 범위 밖이고 동작을 막지 않는다. 이름 노출은 가짜 데이터인 지금은 괜찮고, 실제 학생 데이터를 넣기 전에 고친다(위 1번).
+
+### 항목별 결과 (지침 06 4장)
+
+1. **복구가 온전한가 — 통과**
+   - `git diff ef4acc3 --stat -- . ':(exclude)jewel' ':(exclude)memory'`: `CLAUDE.md`(공동 작업 구조 절, 메인 세션), `README.md`(+2줄), `js/content/games.js`, `js/screens/play.js`, `js/screens/select.js`, `spec.md`(13장 표 25번째 줄, 메인 세션)뿐. `index.html`·CSS·다른 JS·`design/`·`.gitignore`·`.nojekyll`은 `ef4acc3`과 같다. 추적 안 된 파일은 `instructions/05`·`06`·`07`(새 지침 파일)뿐.
+   - `jewel/`: `13d3de8` 루트의 `index.html`, `css/style.css`, `js/audio.js`·`board.js`·`game.js`·`levels.js`·`teacher.js`와 한 글자도 다르지 않다. `README.md`는 "실시간 플레이"(5번째 줄)·"온라인 접속"(30번째 줄) 주소 두 줄만 `/card-lab1/jewel/`로 바뀜(메인 세션, 정상).
+   - `memory/`: 파일 목록이 `13d3de8`과 같고, 다른 곳은 `memory/config.js`의 `MAIN_URL: "../#/select"` 한 줄뿐.
+2. **첫 화면 — 통과**: `/`가 Fun English 인트로. 콘솔 오류 없음.
+3. **연결 — 통과** (모두 브라우저에서 직접 해 봄)
+   - 학생 로그인(구글 흉내) → 카드 뒤집기 START → `memory/?nick=%EA%B9%80%ED%95%98%EB%A6%B0&practice=0&sfx=1`. 메모리 게임에 "김하린", "김하린 님, 레벨 1부터…"가 뜬다.
+   - 연습 모드 켜기·효과음 끄기 → START → `practice=1&sfx=0`. 메모리 게임에 "연습 모드" 표시가 보이고 효과음 버튼이 꺼짐. 스위치 값은 `prefs`(데이터 한 겹)에서 읽는다.
+   - 메모리 "← 메인으로"(`../#/select`) → 게임 선택(로그인 유지).
+   - 보석 START → `jewel/`, 브라우저 뒤로 가기 → `#/select/jewel`(고른 게임 그대로). 메모리에서 뒤로 가기도 `#/select/memory`.
+   - 듣고 고르기·스피드 퀴즈 START → `#/play/listen`·`#/play/speed` 자리 화면.
+   - 로그인 안 한 채 `#/play/memory`·`#/play/jewel` → 학생 로그인 화면 + 안내. 교사로 로그인한 채 `#/play/memory` → 학생 로그인 화면.
+   - 학생 로그인 뒤 `#/select` → `#/play/memory` → 메모리 게임으로 가고, 뒤로 가기 하면 `#/select`(자리 화면 기록이 `replace`로 남지 않음). `#/play/jewel` → `jewel/`.
+4. **보석 게임 — 통과**: `jewel/`, `css/style.css`, `js/` 5개 모두 200. 게임 화면(미션 선택·목표 단어·보석 판)이 뜬다. 콘솔 오류는 `/favicon.ico` 404뿐. 보석 게임 안에 `/`로 시작하는 경로나 `card-lab1` 주소 없음(바깥 주소는 Google Fonts `@import` 하나).
+5. **코드 규칙 — 통과**: 화면 코드(`js/screens/`, `js/content/`)에 `localStorage`·`sessionStorage` 없음. 값은 `encodeURIComponent`로 인코딩. 게임 주소는 `memory/`·`jewel/` 상대 경로. `node --check`: `games.js`, `select.js`, `play.js`, `router.js`, `routes.js`, `app.js` 통과.
+6. **회귀 — 통과**: 인트로, 학생·교사 로그인, 게임 선택(기본·memory·jewel), 자리 화면(listen·speed), 대시보드, 길을 잃었어요 화면이 360 / 768 / 1280px에서 모두 열리고 가로 넘침 0px.
+7. **같은 사이트 저장소 충돌 — 통과**: 우리 앱 `funeng.prefs`(local)·`funeng.session`(session), 메모리 `wordcard-game-v1`(local), 보석 `gem_word_missions_v3`(local). 겹치는 키 없음. 메모리의 `NICK_STORAGE_KEY`는 비어 있어 우리 키를 읽지 않는다.
+
+### 확인 못 한 것
+- **GitHub Pages 실제 주소**(`/card-lab1/` 아래에서 `memory/`·`jewel/`·`../#/select`가 맞게 풀리는지): 배포 전이라 로컬 루트(`/`)에서만 봤다. 상대 경로라 같게 동작할 것으로 본다.
+- **실제 소리·배경음악**, 메모리·보석 게임을 끝까지 플레이하는 것: 연결 확인 범위 밖이라 첫 화면까지만 봤다.
+- 실제 아이패드 Safari·삼성 인터넷.
+
+## 4차 검증 — 합치기 결과와 로고 링크 (2026-11-14)
+
+> Review 서브에이전트(Build·메인 세션과 다른 에이전트). 지침: `instructions/09-review-merge-logo.md`. 작업 폴더를 임시 폴더 `review-site`로 복사해 `127.0.0.1:8702`에서 띄우고 브라우저로 직접 눌러 확인했다. 서버는 끝난 뒤 껐다.
+
+### 결과: **통과** (반드시 고칠 것 없음)
+
+### 반드시 고칠 것
+
+| # | 내용 | 위치 |
+|---|---|---|
+| — | 없음 | — |
+
+### 고치면 좋은 것
+
+| # | 내용 | 위치 | 제안 |
+|---|---|---|---|
+| 1 | 게임 선택(900px 이하)과 게임 자리 화면(480px 이하)에서는 기존 숨김 규칙 때문에 로고가 안 보여 누를 수 없다(Build가 밝힘). 지침 08이 숨김 규칙을 그대로 두라고 했고, 로그인 화면·교사 화면·길을 잃었어요는 360px에서도 로고가 보인다 | `css/bars.css`, `css/screens/play.css` | 반드시 고칠 것 아님. 좁은 화면에서도 첫 화면으로 가는 길이 필요하면 사용자와 정한 뒤 "Fun"만 남기는 식으로 보이게 한다 |
+| 2 | 학생·교사 로그인 화면은 "처음으로" 버튼과 로고가 같은 곳(`#/`)으로 간다(Build가 밝힘) | `js/screens/student-login.js`, `teacher-login.js` | 고칠 것 없음. 같은 곳으로 가는 길이 두 개일 뿐 헷갈리거나 막히는 것은 없다 |
+| 3 | 로그인한 학생이 로고로 인트로에 온 뒤 "학생 로그인"을 누르면 로그인 화면이 다시 나온다(교사도 같음, Build가 밝힘). 로그인 상태는 남아 있어 주소로 `#/select`에 가면 바로 열린다 | `js/router.js`, `js/screens/intro.js` | 반드시 고칠 것 아님(지침 08 "지금 라우터 동작 그대로면 된다"). 불편하면 "로그인한 채 로그인 화면에 오면 게임 선택/대시보드로 보낸다"를 spec에 넣을지 사용자와 정한다 |
+| 4 | 메모리 게임 화면 왼쪽 위에도 "Fun English" 글자(`<p class="logo">`)가 있는데 누를 수 없다. 앱 로고와 모양이 비슷해 학생이 눌러 볼 수 있다 | `memory/index.html` | 다른 사람 게임이라 범위 밖. 원하면 메모리 담당에게 `../#/`(또는 `MAIN_URL`) 링크를 부탁 |
+| 5 | 확인용 브라우저가 처음에 예전 `parts.js`(304, 캐시)를 그대로 써서 로고가 `<p>`로 보였다. 강력 새로고침 후 정상. 배포 직후 학생 브라우저에서도 잠깐 그럴 수 있다 | — | spec "배포 직후 캐시" 항목과 같은 일. 따로 고칠 것 없음 |
+
+3차의 "고치면 좋은 것 3번(보석 게임 안에 메인으로 가는 링크 없음)"은 공동 작업자가 넣고 메인 세션이 주소를 고친 "🏠 메인으로"(`../#/select`)로 **해결됨**.
+
+### 항목별 결과 (지침 09 4장)
+
+1. **합치기가 의도대로인가 — 통과**
+   - `git diff 2ca3ae4 --stat`(작업 폴더와 비교): `CLAUDE.md`, `css/bars.css`, `css/screens/play.css`, 루트 옛 파일 6개 삭제, `instructions/05·06·07`, `jewel/README.md`, `jewel/index.html`, `js/content/games.js`, `js/screens/play.js`, `js/screens/select.js`, `js/ui/parts.js`, `memory/config.js`, `review.md`, `spec.md` — 지침 1장 3·4의 파일뿐. 추적 안 된 파일은 `instructions/08·09·10`뿐.
+   - 루트 `css/style.css`, `js/audio.js`·`board.js`·`game.js`·`levels.js`·`teacher.js` 없음. `2ca3ae4`의 이 6개는 `jewel/` 안 같은 이름 파일과 한 글자도 다르지 않다. 앱(`index.html`, `js/`, `css/`)에서 이 파일을 부르는 곳 없음(`jewel/index.html`이 자기 폴더 안 상대 경로로 부르는 것만 있음, 모두 200).
+   - `jewel/`: `2ca3ae4`와 비교해 `index.html` 20번째 줄(`../../#/select` → `../#/select`) 한 줄, `README.md` 주소 두 줄만 다르다.
+   - `memory/`: `2ca3ae4`와 비교해 `config.js`의 `MAIN_URL: "../#/select"` 한 줄만 다르다.
+   - `play-game-frame`, `game-play-iframe`, `iframe`이 `index.html`·`js/`·`css/`에 남아 있지 않다.
+   - `spec.md` 13장 25·26번째 줄(메인 세션, stage 안 된 수정 포함): 이번 동작과 맞다. 문제없음.
+2. **게임 바로 이동 — 통과** (1280px, 브라우저에서 직접 누름)
+   - 학생 로그인(구글 흉내) → 카드 뒤집기 → 연습 모드 켬·효과음 끔 → START → `memory/?nick=%EA%B9%80%ED%95%98%EB%A6%B0&practice=1&sfx=0`. 메모리 게임에 "김하린", "연습 모드", "효과음 꺼짐"이 보인다.
+   - 메모리 "메인으로"(`../#/select`) → 게임 선택(로그인 유지). 브라우저 뒤로 가기 → 메모리 → 다시 뒤로 → `#/select/memory`.
+   - 보석 START → `jewel/`, 보석 판이 뜬다. "🏠 메인으로" → `http://127.0.0.1:8702/#/select`(앱 안, 게임 선택). 뒤로 가기 → `jewel/` → `#/select/jewel`.
+   - 듣고 고르기·스피드 퀴즈 START → `#/play/listen`·`#/play/speed` 자리 화면.
+   - 로그인한 채 `#/play/memory` 직접 → 메모리 게임(값 그대로), `#/play/jewel` → `jewel/`, 그 뒤 뒤로 가기가 `#/play/jewel`을 건너뜀(`replace`). 로그아웃 상태로 `#/play/memory`·`#/play/jewel` → 학생 로그인 화면.
+3. **로고 링크 — 통과**
+   - 6개 화면(학생 로그인, 교사 로그인, 게임 선택 `#/select`·`#/select/speed`, 자리 화면 listen·speed, 교사 대시보드, 길을 잃었어요)에서 로고를 누르면 모두 `#/` 인트로. 학생·교사 로그인 상태(`funeng.session`)는 그대로 남는다.
+   - 마크업: `<a class="logo" href="#/" aria-label="Fun English 첫 화면으로">`. 화면 낭독기 이름은 교사 화면(TEACHER 표시)에서도 "Fun English 첫 화면으로"(접근성 트리에서 link 이름으로 확인).
+   - 키보드: 대시보드에서 Tab 두 번(건너뛰기 링크 다음)에 로고, 파란 4px 외곽선이 보이고 Enter로 `#/`, 인트로 제목에 포커스.
+   - 누르는 영역 높이 44px(모든 화면·폭).
+   - 모양: 1280px과 360px에서 예전 `<p class="logo">`로 바꿔 끼워 비교 — 위 바 높이, 옆 버튼 위치, "English" 글자 위치·폭, 글자색(`rgb(20,20,20)`)·노랑 외곽 글자가 **모두 같다**. 밑줄 없음.
+   - 마우스를 올리면 `translateY(-2px)`, 0.12s. 규칙이 `(hover:hover) and (prefers-reduced-motion:no-preference)` 안에 있고, 움직임 줄이기면 `base.css`가 전환도 1ms로 줄인다(코드로 확인, 설정 흉내는 못 함).
+4. **회귀 — 통과**
+   - 인트로, 학생·교사 로그인, 길을 잃었어요, 대시보드, 게임 선택(기본·jewel), 자리 화면(listen·speed)이 360 / 768 / 1280px에서 가로 넘침 0px.
+   - 로고 보임: 768px 게임 선택은 숨김(900px 이하 규칙), 360px 게임 선택·자리 화면은 숨김(기존 규칙), 나머지는 보임.
+   - 콘솔 오류: `/favicon.ico` 404(보석·메모리 페이지, 확인용 브라우저의 요청 포함)와 `memory/music/bgm.mp3` 404뿐 — 알려진 것. 자바스크립트 오류 없음.
+   - `node --check`: `js/` 아래 모든 `.js` 통과.
+   - 화면 코드(`js/screens/`, `js/ui/`, `js/content/`, `js/lib/`, `router.js`, `routes.js`, `app.js`)에 `localStorage`·`sessionStorage` 없음(spec 3.3).
+
+### Build가 밝힌 점 판단
+
+- 좁은 화면에서 로고 숨김(게임 선택 900px 이하, 자리 화면 480px 이하): **반드시 고칠 것 아님**. 지침 08이 그대로 두라고 했고, 그 화면에는 로그아웃·뒤로 버튼이 있다. 위 "고치면 좋은 것" 1번.
+- 교사(학생) 로그인 화면의 "처음으로"와 로고가 같은 곳: **고칠 것 없음**. 위 2번.
+- 로그인된 학생이 인트로에서 "학생 로그인" → 로그인 화면이 다시 나옴: **반드시 고칠 것 아님**(지침 08이 허용한 지금 라우터 동작). 바꾸려면 spec 변경이라 사용자와 정한다. 위 3번.
+
+### 확인 못 한 것
+- 움직임 줄이기 설정을 실제로 켠 상태(브라우저 흉내 못 함, CSS 코드로만 확인).
+- GitHub Pages 실제 주소(`/card-lab1/` 아래) — 배포 전이라 로컬 루트에서만 봤다. 모두 상대 경로라 같게 동작할 것으로 본다.
+- 실제 아이패드 Safari·삼성 인터넷, 실제 화면 낭독기(VoiceOver 등)로 듣기.

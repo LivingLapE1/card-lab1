@@ -1,7 +1,7 @@
 // 게임 선택 — #/select, #/select/:game
 import { html } from '../lib/html.js';
 import { formatBest, formatPlays, formatDaysAgo, formatNumber } from '../lib/format.js';
-import { GAMES, GAME_IDS, getGame } from '../content/games.js';
+import { GAMES, GAME_IDS, getGame, gameUrl } from '../content/games.js';
 import { icon, art, logo, player, winBar } from '../ui/parts.js';
 
 const THEMES = GAME_IDS.map((id) => `t-${id}`);
@@ -155,7 +155,12 @@ export function mount(root, { home }, ctx) {
     prefs.setPrefs({ [sw.dataset.pref]: on });
   };
 
-  const onStart = () => ctx.navigate(`/play/${current}`);
+  // 실제 게임이 있으면 그 주소로(뒤로 가기로 돌아올 수 있게 assign), 없으면 자리 화면으로
+  const onStart = () => {
+    const url = gameUrl(getGame(current), { user: ctx.user, prefs: prefs.getPrefs() });
+    if (url) window.location.assign(url);
+    else ctx.navigate(`/play/${current}`);
+  };
 
   const onLogout = async () => {
     await auth.signOut();

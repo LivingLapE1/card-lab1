@@ -18,10 +18,12 @@ export function winBar(title) {
   return html`<div class="win__bar"><i class="win__box"></i><span class="win__title" lang="en">${title}</span><i class="win__box"></i></div>`;
 }
 
-// 로고 (teacher: TEACHER 태그, hideEnglishOnSmall: 640px 이하 "English" 숨김)
+// 로고: 첫 화면(#/)으로 가는 링크. 로그인 상태는 그대로 둔다.
+// (teacher: TEACHER 태그, hideEnglishOnSmall: 640px 이하 "English" 숨김)
+// 화면 낭독기 이름은 TEACHER 태그가 있어도 "Fun English 첫 화면으로"로 같다.
 export function logo({ teacher = false, hideEnglishOnSmall = false } = {}) {
   const outline = hideEnglishOnSmall ? 'outline hide-sm' : 'outline';
-  return html`<p class="logo" lang="en">Fun <span class="${outline}">English</span>${teacher ? html` <span class="mode">TEACHER</span>` : ''}</p>`;
+  return html`<a class="logo" href="#/" aria-label="Fun English 첫 화면으로"><span lang="en">Fun</span> <span class="${outline}" lang="en">English</span>${teacher ? html` <span class="mode" lang="en">TEACHER</span>` : ''}</a>`;
 }
 
 // 아바타 (color: yellow는 클래스 없음, cobalt / red / paper)

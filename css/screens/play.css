@@ -20,33 +20,6 @@
 .soon__desc{margin-top:var(--sp-4);font-weight:600;line-height:1.6;color:var(--paper-2)}
 .soon__ready{margin-top:var(--sp-2);font-weight:700;color:var(--yellow)}
 
-/* 실제 게임(보석 게임 & 카드 뒤집기) 플레이 창 */
-.play-game-frame-win {
-  min-height: 760px;
-  display: flex;
-  flex-direction: column;
-}
-.play-game-frame-win .win__title {
-  background: var(--bg);
-  color: var(--fg);
-}
-.play-game-frame__body {
-  padding: 0 !important;
-  flex: 1;
-  display: flex;
-  min-height: 720px;
-  background: #0d0f1f;
-  overflow: hidden;
-  border-radius: 0 0 var(--sp-2) var(--sp-2);
-}
-.game-play-iframe {
-  width: 100%;
-  height: 100%;
-  min-height: 720px;
-  border: none;
-  display: block;
-}
-
 /* 오른쪽 창 GUIDE.EXE */
 .guide__body{display:grid;gap:var(--sp-5);padding:var(--sp-5)}
 .guide__chips{display:flex;flex-wrap:wrap;gap:var(--sp-2)}

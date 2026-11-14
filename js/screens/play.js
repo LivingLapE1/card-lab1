@@ -1,14 +1,21 @@
-// 게임 자리 화면 4종 — #/play/:game (보석 게임 및 카드 뒤집기 실제 게임 판 구동)
+// 게임 자리 화면 4종 — #/play/:game (게임 판은 다음 단계에서 왼쪽 창 안에 만든다)
 import { html } from '../lib/html.js';
-import { getGame } from '../content/games.js';
+import { getGame, gameUrl } from '../content/games.js';
 import { icon, art, logo, player, backButton, winBar } from '../ui/parts.js';
 
-export const title = (d) => (d.game.url ? `${d.game.name} 플레이` : `${d.game.name} 준비 중`);
+export const title = (d) => `${d.game.name} 준비 중`;
 
 export async function load(ctx) {
   const { data, prefs } = ctx.services;
   const game = getGame(ctx.params.game);
   if (!game) throw new Error(`unknown game: ${ctx.params.game}`);
+  // 실제 게임이 있는 경우(#/play/memory 등 직접 접속): 자리 화면 대신 그 게임으로 보낸다.
+  // 로그인 확인은 라우터가 이미 했다. 기록을 늘리지 않게 replace, 페이지가 바뀌므로 그리지 않고 기다린다.
+  const url = gameUrl(game, { user: ctx.user, prefs: prefs.getPrefs() });
+  if (url) {
+    window.location.replace(url);
+    return new Promise(() => {});
+  }
   const home = await data.getStudentHome(ctx.user.id);
   return { game, home, prefs: prefs.getPrefs() };
 }
@@ -19,15 +26,6 @@ export function view({ game: g, home, prefs }) {
   const s = home.student;
   const sub = `${s.classLabel} · ${s.loginType === 'google' ? '구글 계정' : s.loginId}`;
   const back = `#/select/${g.id}`;
-  const hasGameUrl = Boolean(g.url);
-
-  // 학생 이름과 설정을 게임 쿼리 스트링으로 전달
-  const q = new URLSearchParams({
-    nick: s.name || '',
-    practice: prefs.practiceMode ? '1' : '0',
-    sfx: prefs.sound ? '1' : '0'
-  }).toString();
-  const gameSrc = hasGameUrl ? `${g.url}?${q}` : '';
 
   return html`
 <div class="screen" data-screen="play">
@@ -41,14 +39,6 @@ export function view({ game: g, home, prefs }) {
   <main class="play t-${g.id}" id="main" tabindex="-1">
     <div class="halftone" aria-hidden="true"></div>
 
-    ${hasGameUrl ? html`
-    <section class="win win--night play-game-frame-win t-${g.id}" aria-labelledby="play-title">
-      ${winBar(g.exe)}
-      <div class="win__body play-game-frame__body">
-        <iframe src="${gameSrc}" class="game-play-iframe" title="${g.name}" allow="autoplay; speech"></iframe>
-      </div>
-    </section>
-    ` : html`
     <section class="win win--night soon t-${g.id}" aria-labelledby="play-title">
       ${winBar(g.exe)}
       <div class="win__body scan soon__body">
@@ -65,7 +55,6 @@ export function view({ game: g, home, prefs }) {
         </div>
       </div>
     </section>
-    `}
 
     <aside class="win guide" aria-labelledby="guide-title">
       ${winBar('GUIDE.EXE')}
@@ -81,11 +70,6 @@ export function view({ game: g, home, prefs }) {
             <li class="chip">효과음 ${onOff(prefs.sound)}</li>
           </ul>
         </div>
-        ${hasGameUrl ? html`
-        <a class="btn btn--secondary btn--lg btn--block" href="${gameSrc}" target="_blank" rel="noopener">
-          <span>새 창에서 전체화면으로 ↗</span>
-        </a>
-        ` : ''}
         <a class="btn btn--primary btn--xl btn--block gloss" href="${back}">${icon('i-back', 'i--lg')}<span>게임 고르기로</span></a>
       </div>
     </aside>
