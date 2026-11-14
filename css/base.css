@@ -1,0 +1,35 @@
+/* ===== 기본 ===== */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:500 16px/1.7 var(--f-body);word-break:keep-all;overflow-x:hidden;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+h1,h2,h3,p,ol,ul,dl,dd{margin:0}
+ol,ul{padding:0;list-style:none}
+a{color:inherit}
+[hidden]{display:none!important}
+
+/* 포커스: 4px 코발트 외곽선, 4px 띄움 */
+:focus-visible{outline:4px solid var(--cobalt);outline-offset:4px}
+/* 화면이 바뀔 때 라우터가 옮겨 놓는 포커스(h1), 건너뛰기 링크가 옮겨 놓는 포커스(main)는 외곽선 없음 */
+h1[tabindex="-1"]:focus,main[tabindex="-1"]:focus{outline:none}
+
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+.dot{font-family:var(--f-dot);letter-spacing:.04em}
+
+/* 화면 틀: 한 번에 한 화면만 그린다 */
+.screen{display:flex;min-height:100vh;min-height:100dvh;flex-direction:column;position:relative;overflow:clip}
+
+/* 본문으로 건너뛰기: 평소엔 화면 밖, 포커스를 받으면 왼쪽 위에 */
+.skip{position:fixed;left:16px;top:-120px;z-index:90;display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;border:var(--line);border-radius:var(--r-1);background:var(--yellow);color:var(--ink);box-shadow:var(--hs-1);font-weight:700;text-decoration:none}
+.skip:focus{top:16px}
+
+/* 자바스크립트가 꺼졌을 때 */
+.noscript{width:min(560px,calc(100% - 2 * var(--gut)));margin:var(--sp-7) auto;padding:var(--sp-5);border:var(--line);border-radius:var(--r-win);background:var(--paper-2);box-shadow:var(--hs-2);font-weight:700;font-size:var(--fs-20);text-align:center}
+
+/* 움직임 줄이기: 띠 흐름, 흐르는 빛, 튀어나오기, 흔들림, 커서 깜빡임을 모두 멈춘다 */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:1ms!important}
+  .sheen::after,.cart[aria-pressed="true"] .cart__label::after{display:none}
+}

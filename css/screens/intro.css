@@ -1,0 +1,65 @@
+/* ===== 1. 인트로 ===== */
+
+/* 검은 띠 (흐르는 글자) */
+.ribbon{position:relative;z-index:4;background:var(--ink);color:var(--paper-2);overflow:hidden;white-space:nowrap;font:700 13px/1 var(--f-dot);letter-spacing:.08em}
+.ribbon__track{display:inline-flex;animation:marquee 48s linear infinite}
+.ribbon__track>span{display:inline-block;padding:11px 40px 11px 0}
+.ribbon b{color:var(--yellow);font-weight:700}
+.ribbon .ko{font-family:var(--f-body);letter-spacing:0;font-style:normal}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* 포스터 + 미리보기 */
+.intro{flex:1;position:relative;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:center;gap:40px;padding:8px var(--gut) 48px}
+.intro .halftone{width:min(66vw,820px);right:-14%;top:-12%}
+.intro__copy{position:relative;z-index:2}
+.poster{font:400 clamp(56px,10.4vw,150px)/.9 var(--f-title);letter-spacing:-.02em;margin:0 0 28px}
+.poster span{display:block}
+.poster .outline{color:var(--yellow);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;text-shadow:7px 7px 0 var(--ink)}
+.lead{font-size:20px;line-height:1.65;font-weight:600;max-width:23em;margin-bottom:32px}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px}
+.hint{font-size:15px;color:var(--ink-2);font-weight:600;max-width:15em;line-height:1.5}
+.intro__stage{position:relative;z-index:1;padding:28px 12px 28px 0}
+/* 미리보기 창의 스티커 2개 (시안의 인라인 값을 그대로 옮김) */
+.intro__new{--rot:12deg;--size:118px;--delay:150ms;top:-10px;right:-6px;background:var(--red)}
+.intro__count{--rot:-7deg;--delay:280ms;left:-26px;bottom:-16px}
+
+/* 미리보기 창 안 (카드 뒤집기) */
+.mm{padding:0}
+.mm__hud{display:flex;justify-content:space-between;gap:12px;padding:14px 18px;font:700 14px/1 var(--f-dot);color:var(--yellow);border-bottom:2px dashed rgba(255,253,247,.2)}
+.mm__hud span{color:var(--paper-2)}
+.mm__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:20px 18px 12px;perspective:700px}
+.mcard{position:relative;aspect-ratio:3/4;border:3px solid var(--night-ink);border-radius:8px;box-shadow:4px 4px 0 var(--night-ink);display:grid;place-items:center}
+.mcard--back{background:radial-gradient(rgba(255,253,247,.32) 1.4px,transparent 1.8px) 0 0/9px 9px,var(--cobalt);color:var(--paper-2);font:700 clamp(18px,2.2vw,30px)/1 var(--f-dot)}
+.mcard--face{background:var(--paper-2);color:var(--ink)}
+.mcard__word{font:700 clamp(13px,1.5vw,20px)/1 var(--f-body)}
+.mcard--match{border-color:var(--green)}
+.mcard--match::after{content:"";position:absolute;top:-10px;right:-10px;width:24px;height:24px;border-radius:50%;border:2px solid var(--night-ink);background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141414' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/16px no-repeat}
+.mcard--flip{transform:rotateY(52deg);transform-origin:left center}
+.mcard svg{width:62%;height:auto}
+.mm__combo{display:flex;align-items:center;justify-content:space-between;padding:6px 18px 18px;font:700 20px/1 var(--f-dot);color:var(--yellow)}
+.mm__combo span{color:var(--paper-2);font-size:14px}
+
+/* 빨간 띠: 오늘의 단어 */
+.today{position:relative;z-index:4;display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;padding:16px var(--gut);background:var(--red);border-top:var(--line)}
+.today__label{font:700 13px/1 var(--f-dot);background:var(--ink);color:var(--paper-2);padding:7px 9px;letter-spacing:.06em}
+.today__word{font:400 40px/1 var(--f-title)}
+.today__mean{font-weight:700;font-size:22px}
+.today__right{margin-left:auto;font-weight:700;font-size:15px}
+.today__right .dot{font-size:18px}
+
+/* ===== 반응형 ===== */
+@media (max-width:900px){
+  .intro{grid-template-columns:minmax(0,1fr);gap:28px;padding-bottom:40px}
+  .intro__stage{max-width:560px;width:100%;padding-left:18px}
+  .intro .halftone{width:110vw;right:-40%;top:auto;bottom:-10%}
+  .today__right{margin:0}
+  /* 한 칸일 때 미리보기가 화면 왼쪽 여백에 붙으므로, "게임 4가지" 스티커가 화면 밖으로 잘리지 않게 */
+  .intro__count{left:calc(8px - var(--gut))}
+}
+@media (max-width:640px){
+  .lead{font-size:18px}
+  .today__word{font-size:32px}
+}
+@media (max-width:480px){
+  .mm__hud{font-size:12px;white-space:nowrap}
+}

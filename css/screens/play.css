@@ -1,0 +1,53 @@
+/* ===== 게임 자리 화면 (새 화면: 간격·글자 크기 토큰 사용) ===== */
+.play{flex:1;position:relative;width:100%;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:var(--sp-7);padding:var(--sp-6) var(--gut) var(--sp-8);align-items:start}
+
+/* 망점 원: 그 게임 색 (memory 노랑, jewel 밤색, listen 코발트, speed 빨강) */
+.play>.halftone{--c:var(--bg);width:min(80vw,760px);left:-18%;top:-22%}
+
+/* 왼쪽 큰 창: 창 이름 칸 바탕을 게임 색으로 */
+.soon .win__title{background:var(--bg);color:var(--fg)}
+.soon__body{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--sp-7);align-items:center;padding:var(--sp-7) var(--sp-6)}
+.soon__art{position:relative;z-index:1;width:220px;height:176px}
+.soon__plate{display:grid;place-items:center;width:100%;height:100%;border:3px solid var(--night-ink);border-radius:var(--sp-2);background:var(--paper-2);box-shadow:var(--sp-1) var(--sp-1) 0 var(--night-ink)}
+.soon__img{width:82%;height:auto}
+.soon__sticker{--size:96px;--rot:10deg;top:calc(-1 * var(--sp-5));right:calc(-1 * var(--sp-5));font-size:var(--fs-20)}
+.soon__copy{position:relative;z-index:1;min-width:0}
+.soon__label{font:700 var(--fs-14)/1 var(--f-dot);letter-spacing:.08em;color:var(--yellow)}
+.soon__title{margin-top:var(--sp-3);font:400 clamp(36px,5vw,56px)/1.05 var(--f-title);color:var(--paper-2)}
+.soon__coming{margin-top:var(--sp-4);font:700 var(--fs-28)/1 var(--f-dot);letter-spacing:.04em;color:var(--yellow);white-space:nowrap}
+.soon__cursor{animation:blink 1s steps(1,end) infinite}
+@keyframes blink{50%{opacity:0}}
+.soon__desc{margin-top:var(--sp-4);font-weight:600;line-height:1.6;color:var(--paper-2)}
+.soon__ready{margin-top:var(--sp-2);font-weight:700;color:var(--yellow)}
+
+/* 오른쪽 창 GUIDE.EXE */
+.guide__body{display:grid;gap:var(--sp-5);padding:var(--sp-5)}
+.guide__chips{display:flex;flex-wrap:wrap;gap:var(--sp-2)}
+
+/* 위 바: 좁은 화면에서도 한 줄에 */
+@media (max-width:640px){
+  /* 플레이어 이름·설명은 화면에서 숨기고(아바타만) 화면 낭독기에는 남긴다 */
+  .subbar--play .player p{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+}
+@media (max-width:480px){
+  .subbar--play .logo{display:none}
+}
+
+/* ===== 반응형 ===== */
+/* 게임 선택 화면처럼 1100px 이하에서 한 칸 (GUIDE가 아래). 두 칸이면 왼쪽 창 안 글 칸이 너무 좁아진다 */
+@media (max-width:1100px){
+  .play{grid-template-columns:minmax(0,1fr);gap:var(--sp-6)}
+  .guide{max-width:640px}
+  .play>.halftone{width:110vw;left:-40%;top:-10%}
+}
+@media (max-width:900px){
+  .soon__body{grid-template-columns:minmax(0,1fr);justify-items:start;gap:var(--sp-6)}
+  .soon__sticker{right:calc(-1 * var(--sp-7))} /* 한 칸일 때는 그림 오른쪽이 비어 있어 그림을 덜 가리게 */
+}
+@media (max-width:640px){
+  .soon__body{padding:22px}
+  .soon__art{width:160px;height:128px;margin-top:var(--sp-3)}
+}
+@media (max-width:480px){
+  .soon__coming{font-size:var(--fs-20)} /* 좁은 폭에서도 COMING SOON_이 한 줄에 */
+}
