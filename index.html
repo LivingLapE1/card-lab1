@@ -1,349 +1,147 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Word Jewel Quest - 영어 단어 보석 매치 게임</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fun English · 초등 영어 단어 게임</title>
+<meta name="description" content="카드 뒤집기, 보석 게임, 듣고 고르기, 스피드 퀴즈로 영어 단어랑 친해지는 초등 영어 단어 게임">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=IBM+Plex+Sans+KR:wght@500;600;700&family=Silkscreen:wght@400;700&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/bars.css">
+<link rel="stylesheet" href="css/screens/intro.css">
+<link rel="stylesheet" href="css/screens/login.css">
+<link rel="stylesheet" href="css/screens/select.css">
+<link rel="stylesheet" href="css/screens/play.css">
+<link rel="stylesheet" href="css/screens/dashboard.css">
+<link rel="stylesheet" href="css/screens/lost.css">
+<script type="module" src="js/app.js"></script>
 </head>
 <body>
-    <!-- App Header -->
-    <header class="app-header">
-        <div class="logo-area">
-            <div class="logo-icon">💎</div>
-            <div class="logo-text">
-                <h1>Word Jewel Quest</h1>
-                <p>알파벳 보석을 모아 영어 단어를 완성하세요!</p>
-            </div>
-        </div>
-        <div class="header-controls">
-            <button id="btn-teacher" class="btn btn-teacher">⚙️ 선생님 단어·시간 설정</button>
-            <button id="btn-restart" class="btn btn-secondary">🔄 다시하기</button>
-        </div>
-    </header>
 
-    <!-- Main Game Area -->
-    <main class="main-wrapper">
-        <div class="game-dashboard-layout">
-            <!-- Left Info & Controls Column -->
-            <div class="dashboard-side-col">
-                <!-- Mission, Timer & Score HUD -->
-                <div class="mission-card">
-                    <div class="mission-select-box">
-                        <label for="mission-select">🎯 미션 선택:</label>
-                        <select id="mission-select"></select>
-                    </div>
-                    <div class="game-hud-stats">
-                        <!-- Timer Box -->
-                        <div class="stat-item timer-box">
-                            <span class="stat-label">TIME</span>
-                            <span id="timer-val" class="stat-value timer-text">01:00</span>
-                        </div>
-                        <!-- Score Box (글자 크기 2배 적용) -->
-                        <div class="stat-item score-stat-box">
-                            <span class="stat-label score-stat-label">SCORE</span>
-                            <span id="score-val" class="stat-value score-stat-value">0</span>
-                        </div>
-                        <!-- Moves Box -->
-                        <div class="stat-item">
-                            <span class="stat-label">MOVES</span>
-                            <span id="moves-val" class="stat-value">0</span>
-                        </div>
-                    </div>
-                </div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6"/></symbol>
+    <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M3.5 9h4l5-4v14l-5-4h-4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.8 5.8a9 9 0 0 1 0 12.4"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z" fill="currentColor"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2.5c1 4 6.5 6.2 6.5 11.5a6.5 6.5 0 0 1-13 0c0-3.2 2-5.4 3.2-6.4 0 2.1 1 3.4 2.2 3.4 0-3.3-.1-5.6 1.1-8.5z" fill="currentColor"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4.5"/><path d="M11.3 11.7L20 3M16.5 6.5l3 3M14 9l2 2"/></symbol>
+    <symbol id="i-door" viewBox="0 0 24 24"><path d="M13 4H5v16h8M10 12h11M17 8l4 4-4 4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l9.5 17h-19z" fill="var(--yellow)"/><path d="M12 9.5v5M12 17.6v.3"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 
-                <!-- Timer Progress Bar -->
-                <div class="timer-bar-container">
-                    <div id="timer-bar-fill" class="timer-bar-fill normal"></div>
-                </div>
+    <!-- 사과 (단어 그림 카드 예시) -->
+    <symbol id="apple" viewBox="0 0 48 48">
+      <g stroke="#141414" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M24 15c-4-4-17-3-17 10 0 12 9 19 17 16 8 3 17-4 17-16 0-13-13-14-17-10z" fill="#ff4a1c"/>
+        <path d="M24 15c0-5 1.5-8 4-10.5" fill="none"/>
+        <path d="M26.5 9.5c3.5-5 9-5.5 12-4-2.5 4.5-7.5 6.5-12 4z" fill="#22a35a"/>
+      </g>
+      <ellipse cx="15" cy="23" rx="2.6" ry="5" fill="#fff" opacity=".75"/>
+    </symbol>
 
-                <!-- Target Word Tracker -->
-                <section class="target-section">
-                    <div class="target-header">
-                        <span class="target-title">🏆 목표 단어 (Target Word)</span>
-                        <span id="mission-desc" class="mission-desc"></span>
-                    </div>
-                    <div id="target-word-display" class="target-words-wrapper">
-                        <!-- Word boxes injected here -->
-                    </div>
-                </section>
+    <!-- 01 메모리: 카드 두 장 -->
+    <symbol id="art-memory" viewBox="0 0 120 96">
+      <g stroke="#141414" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+        <g transform="rotate(-12 44 47)">
+          <rect x="26" y="20" width="44" height="62" rx="6" fill="#141414"/>
+          <rect x="22" y="16" width="44" height="62" rx="6" fill="#2b4bff"/>
+          <path d="M35 38c0-6 4-9.5 9-9.5s9 3.5 9 9c0 6-9 6.5-9 13" fill="none" stroke="#fffdf7" stroke-width="5"/>
+          <path d="M44 60.5v.5" stroke="#fffdf7" stroke-width="6"/>
+        </g>
+        <g transform="rotate(9 78 48)">
+          <rect x="60" y="21" width="44" height="62" rx="6" fill="#141414"/>
+          <rect x="56" y="17" width="44" height="62" rx="6" fill="#fffdf7"/>
+        </g>
+      </g>
+      <use href="#apple" x="62" y="28" width="32" height="32" transform="rotate(9 78 48)"/>
+    </symbol>
 
-                <!-- Controls -->
-                <div class="bottom-controls">
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 10px;">
-                        <button id="btn-hint" class="btn btn-primary" style="flex: 1;">💡 힌트 보기</button>
-                        <label class="switch-label" style="white-space: nowrap;">
-                            <input type="checkbox" id="chk-free-swap">
-                            <span>자유 이동</span>
-                        </label>
-                    </div>
-                    <div class="audio-controls-row" style="display: flex; gap: 8px; width: 100%;">
-                        <button id="btn-sound-toggle" class="btn btn-secondary btn-sm" style="flex: 1;">🔊 효과음 ON</button>
-                        <button id="btn-speech-toggle" class="btn btn-secondary btn-sm" style="flex: 1;">🗣️ 발음 ON</button>
-                    </div>
-                </div>
-            </div>
+    <!-- 02 보석: 깎은 보석 + 다른 모양 보석 -->
+    <symbol id="art-jewel" viewBox="0 0 120 96">
+      <g stroke="#141414" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+        <polygon points="65,15 97,37 87,87 43,87 33,37" fill="#0d0b14"/>
+        <polygon points="60,10 92,32 82,82 38,82 28,32" fill="#ff4a1c"/>
+        <polygon points="60,26 76,38 70,66 50,66 44,38" fill="#ff8f6b"/>
+        <path d="M60 10V26M92 32L76 38M82 82L70 66M38 82L50 66M28 32L44 38" fill="none"/>
+        <polygon points="99,66 106,56 113,66 106,80" fill="#ffd400"/>
+        <path d="M99 66h14" fill="none" stroke-width="2.5"/>
+        <path d="M20 6l3 8.5 8.5 3-8.5 3-3 8.5-3-8.5-8.5-3 8.5-3z" fill="#ffd400" stroke-width="2.5"/>
+      </g>
+      <polygon points="47,40 58,30 55,45" fill="#fff" opacity=".85"/>
+    </symbol>
 
-            <!-- Right Board Column -->
-            <div class="dashboard-board-col">
-                <div class="board-container">
-                    <div class="board-frame">
-                        <div id="game-grid" class="game-grid">
-                            <!-- Tiles injected here -->
-                        </div>
-                    </div>
-                    <div id="hint-tooltip" class="hint-tooltip"></div>
-                </div>
-            </div>
-        </div>
-    </main>
+    <!-- 03 듣고 고르기: 스피커 -->
+    <symbol id="art-listen" viewBox="0 0 120 96">
+      <g stroke-linejoin="round" stroke-linecap="round">
+        <path d="M22 42h14l20-16v52L36 62H22z" fill="#141414" stroke="#141414" stroke-width="3"/>
+        <path d="M18 38h14l20-16v52L32 58H18z" fill="#ffd400" stroke="#141414" stroke-width="3"/>
+        <g fill="none" stroke="#141414" stroke-width="10">
+          <path d="M65 37c6 7 6 15 0 22"/><path d="M76 28c11 11 11 29 0 40"/><path d="M87 19c16 16 16 42 0 58"/>
+        </g>
+        <g fill="none" stroke="#fffdf7" stroke-width="4">
+          <path d="M65 37c6 7 6 15 0 22"/><path d="M76 28c11 11 11 29 0 40"/><path d="M87 19c16 16 16 42 0 58"/>
+        </g>
+      </g>
+      <ellipse cx="25" cy="44" rx="2.4" ry="4" fill="#fff" opacity=".8"/>
+    </symbol>
 
-    <!-- Teacher Settings Modal -->
-    <div id="teacher-modal" class="modal-overlay">
-        <div class="modal-box modal-box-large">
-            <div class="modal-header">
-                <h2>⚙️ 선생님 설정 (단계별 단어 & 시간 지정)</h2>
-                <button id="btn-close-teacher" class="btn btn-secondary">✕</button>
-            </div>
-            
-            <!-- Tab Navigation -->
-            <div class="teacher-tabs">
-                <button class="teacher-tab-btn active" data-tab="tab-course-setup">📋 단계별 단어 코스 사전 설정 (추천)</button>
-                <button class="teacher-tab-btn" data-tab="tab-missions-list">🛠️ 개별 미션 상세 편집</button>
-            </div>
+    <!-- 04 스피드: 초시계 + 번개 -->
+    <symbol id="art-speed" viewBox="0 0 120 96">
+      <g stroke="#141414" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="54" cy="58" r="30" fill="#141414"/>
+        <rect x="44" y="11" width="12" height="11" rx="2" fill="#141414"/>
+        <rect x="69" y="18" width="10" height="9" rx="2" fill="#141414" transform="rotate(40 74 22)"/>
+        <circle cx="50" cy="54" r="30" fill="#fffdf7"/>
+        <path d="M50 29v5M75 54h-5M50 79v-5M25 54h5" fill="none"/>
+        <path d="M50 54V37M50 54l12 7" fill="none" stroke-width="4"/>
+        <circle cx="50" cy="54" r="3.5" fill="#141414"/>
+        <polygon points="96,26 80,56 92,56 84,88 112,50 99,50 106,26" fill="#141414" transform="translate(4 4)"/>
+        <polygon points="96,26 80,56 92,56 84,88 112,50 99,50 106,26" fill="#ffd400"/>
+      </g>
+      <ellipse cx="36" cy="40" rx="5" ry="2.6" fill="#fff" opacity=".9" transform="rotate(-40 36 40)"/>
+    </symbol>
 
-            <div class="modal-body">
-                <!-- TAB 1: 단계별 단어 코스 사전 설정 (사용자가 가장 원한 직관적 설정!) -->
-                <div id="tab-course-setup" class="teacher-tab-content active">
-                    <div class="course-guide-box">
-                        <p>💡 <strong>교사 사전 설정 안내:</strong> 각 난이도 단계별로 가르치고자 하는 영어 단어들을 쉼표(,)로 입력하세요. 따로 설정하지 않고 [기본 설정 복원]을 누르면 기본 추천 세팅으로 진행됩니다.</p>
-                    </div>
+    <!-- 마스코트 비트(Bit) -->
+    <symbol id="bit" viewBox="0 0 160 170">
+      <g stroke="#141414" stroke-width="3" stroke-linejoin="round">
+        <rect x="20" y="16" width="132" height="100" rx="12" fill="#141414"/>
+        <rect x="14" y="10" width="132" height="100" rx="12" fill="#fffdf7"/>
+        <rect x="28" y="22" width="104" height="66" rx="6" fill="#2b2540"/>
+        <rect x="66" y="110" width="28" height="14" fill="#e6d9bd"/>
+        <rect x="28" y="130" width="116" height="30" rx="5" fill="#141414"/>
+        <rect x="22" y="124" width="116" height="30" rx="5" fill="#ffd400"/>
+        <rect x="96" y="96" width="36" height="6" rx="2" fill="#141414"/>
+        <circle cx="29" cy="99" r="4.5" fill="#22a35a"/>
+      </g>
+      <g fill="#ffd400">
+        <rect x="56" y="40" width="10" height="14"/><rect x="94" y="40" width="10" height="14"/>
+      </g>
+      <path d="M64 64h6v6h20v-6h6" fill="none" stroke="#ffd400" stroke-width="4"/>
+      <g fill="#ff4a1c"><rect x="44" y="60" width="9" height="5"/><rect x="107" y="60" width="9" height="5"/></g>
+      <path d="M34 28h22l-12 14H34z" fill="#fff" opacity=".12"/>
+      <path d="M22 18h40" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+      <g stroke="#141414" stroke-width="5">
+        <path d="M34 134h10M50 134h10M66 134h10M82 134h10M98 134h10M114 134h10M42 144h76"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
 
-                    <!-- 1. 초급 단계 설정 -->
-                    <div class="grade-setting-card grade-easy">
-                        <div class="grade-title">
-                            <span>🟢 초급 단계 (Easy) - 3글자 위주, 1~2번만 스왑하면 완성</span>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group" style="flex: 3;">
-                                <label for="course-easy-words">초급 목표 단어 목록 (쉼표 구분)</label>
-                                <input type="text" id="course-easy-words" class="form-input" placeholder="ANT, CAT, DOG, SUN, CUP, FOX">
-                                <small>단어를 입력하면 한글 뜻과 발음이 자동으로 매칭됩니다.</small>
-                            </div>
-                            <div class="form-group" style="flex: 1;">
-                                <label for="course-easy-time">제한 시간 (초)</label>
-                                <input type="number" id="course-easy-time" class="form-input" value="60" min="0" step="10">
-                                <small>0 입력 시 무제한</small>
-                            </div>
-                        </div>
-                    </div>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
 
-                    <!-- 2. 중급 단계 설정 -->
-                    <div class="grade-setting-card grade-med">
-                        <div class="grade-title">
-                            <span>🟡 중급 단계 (Medium) - 4글자 단어, 글자가 조금 떨어진 배치</span>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group" style="flex: 3;">
-                                <label for="course-med-words">중급 목표 단어 목록 (쉼표 구분)</label>
-                                <input type="text" id="course-med-words" class="form-input" placeholder="FISH, STAR, BOOK, TREE, BIRD">
-                            </div>
-                            <div class="form-group" style="flex: 1;">
-                                <label for="course-med-time">제한 시간 (초)</label>
-                                <input type="number" id="course-med-time" class="form-input" value="90" min="0" step="10">
-                            </div>
-                        </div>
-                    </div>
+<noscript><p class="noscript">이 게임은 자바스크립트를 켜야 열려요.</p></noscript>
 
-                    <!-- 3. 고급 단계 설정 -->
-                    <div class="grade-setting-card grade-hard">
-                        <div class="grade-title">
-                            <span>🔴 상급 단계 (Hard) - 5글자 단어 및 2개 단어 연속 미션</span>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group" style="flex: 3;">
-                                <label for="course-hard-words">상급 목표 단어 목록 (단어 또는 단어 & 단어)</label>
-                                <input type="text" id="course-hard-words" class="form-input" placeholder="APPLE, WATER, CAT & DOG, SUN & MOON">
-                                <small>'&' 기호로 묶으면 1개 미션에서 2개 단어를 연속으로 완성하는 듀얼 미션이 됩니다.</small>
-                            </div>
-                            <div class="form-group" style="flex: 1;">
-                                <label for="course-hard-time">제한 시간 (초)</label>
-                                <input type="number" id="course-hard-time" class="form-input" value="120" min="0" step="10">
-                            </div>
-                        </div>
-                    </div>
+<!-- 화면은 js/router.js가 한 번에 하나씩 그린다 -->
+<div id="app"></div>
 
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px;">
-                        <button type="button" id="btn-reset-course-default" class="btn btn-secondary">🔄 기본 세팅으로 복원</button>
-                        <button type="button" id="btn-apply-grade-course" class="btn btn-primary" style="padding: 10px 22px; font-size: 1rem;">
-                            🚀 단계별 단어 적용 및 게임 시작
-                        </button>
-                    </div>
-                </div>
-
-                <!-- TAB 2: 개별 미션 상세 편집 -->
-                <div id="tab-missions-list" class="teacher-tab-content">
-                    <div id="mission-list-panel">
-                        <div class="teacher-top-bar">
-                            <button id="btn-new-mission" class="btn btn-primary">➕ 새 미션 추가</button>
-                            <div style="display: flex; gap: 6px;">
-                                <button id="btn-export-json" class="btn btn-secondary btn-sm">💾 JSON 백업</button>
-                                <label class="btn btn-secondary btn-sm" style="margin: 0; cursor: pointer;">
-                                    📂 불러오기
-                                    <input type="file" id="input-import-json" accept=".json" style="display: none;">
-                                </label>
-                            </div>
-                        </div>
-                        <div id="teacher-mission-items" class="teacher-mission-list">
-                            <!-- Cards inserted here -->
-                        </div>
-                    </div>
-
-                    <div id="editor-panel" class="hidden">
-                        <h3 id="editor-title" style="margin-bottom: 14px; color: var(--gold);">미션 상세 편집</h3>
-                        <form id="form-edit-mission">
-                            <div class="form-group">
-                                <label for="edit-name">미션 제목</label>
-                                <input type="text" id="edit-name" class="form-input" required placeholder="예: Level 1: ANT (개미)">
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="edit-words">목표 단어 (쉼표 구분)</label>
-                                    <input type="text" id="edit-words" class="form-input" required placeholder="예: ANT 또는 CAT, DOG">
-                                </div>
-                                <div class="form-group">
-                                    <label for="edit-difficulty">난이도</label>
-                                    <select id="edit-difficulty" class="form-select">
-                                        <option value="easy">🟢 초급 (1~2번 스왑으로 바로 완성)</option>
-                                        <option value="medium">🟡 중급 (단어 글자가 조금 떨어진 배치)</option>
-                                        <option value="hard">🔴 상급 (단어 글자가 멀리 떨어진 배치)</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="edit-time-limit">제한 시간 (초)</label>
-                                    <input type="number" id="edit-time-limit" class="form-input" value="60" min="0" step="10">
-                                </div>
-                                <div class="form-group">
-                                    <label for="edit-grid-size">보드 크기</label>
-                                    <select id="edit-grid-size" class="form-select">
-                                        <option value="6">6 x 6 (추천 / 초급)</option>
-                                        <option value="7">7 x 7 (중급 / 4~5글자)</option>
-                                        <option value="8">8 x 8 (상급 / 긴 단어)</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="edit-swap-dist">초기 완성 스왑 거리</label>
-                                    <input type="number" id="edit-swap-dist" class="form-input" min="1" max="5" value="1">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="edit-meanings">단어 뜻 / 힌트 (단어:뜻, 쉼표 구분)</label>
-                                <input type="text" id="edit-meanings" class="form-input" placeholder="예: ANT:개미 🐜">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="edit-dummies">더미 알파벳 (쉼표 구분, 비워두면 자동 추천)</label>
-                                <input type="text" id="edit-dummies" class="form-input" placeholder="예: O, P">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="edit-desc">학생에게 보여줄 지시문</label>
-                                <textarea id="edit-desc" class="form-textarea" rows="2"></textarea>
-                            </div>
-
-                            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px;">
-                                <button type="button" id="btn-cancel-edit" class="btn btn-secondary">취소</button>
-                                <button type="submit" class="btn btn-primary">저장하기</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Victory / Mission Clear Modal -->
-    <div id="win-modal" class="modal-overlay">
-        <div class="modal-box win-modal-box">
-            <div class="win-stars">⭐⭐⭐</div>
-            <h2 id="win-title" class="win-modal-title">🎉 미션 완료!</h2>
-            <p class="win-modal-subtitle">단어를 완벽하게 완성했습니다!</p>
-            
-            <div id="win-words-summary" class="win-words-container">
-                <!-- Word cards -->
-            </div>
-
-            <!-- Score & Fast Clear Time Bonus Details -->
-            <div class="score-summary-card">
-                <div class="score-row score-row-bonus">
-                    <span>⚡ 빠른 시간 보너스:</span>
-                    <strong id="win-time-bonus" style="color: #64ffda;">+0점</strong>
-                </div>
-                <div class="score-row score-row-total">
-                    <span class="score-total-label">🏆 최종 총점:</span>
-                    <strong id="win-score" class="score-total-val">0</strong>
-                </div>
-                <div class="win-moves-row">
-                    이동 횟수: <span id="win-moves">0</span>회
-                </div>
-            </div>
-
-            <div class="win-actions-row">
-                <button id="btn-hear-word" class="btn btn-secondary win-action-btn">🔊 단어 발음 듣기</button>
-                <button id="btn-play-again" class="btn btn-secondary win-action-btn">🔄 다시 하기</button>
-                <button id="btn-next-level" class="btn btn-primary win-action-btn win-next-btn">다음 미션 ➡️</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Time Over Modal -->
-    <div id="timeover-modal" class="modal-overlay">
-        <div class="modal-box win-modal-box">
-            <div style="font-size: 3rem; margin-bottom: 10px;">⏰</div>
-            <h2 style="color: #ff5252; margin-bottom: 8px;">시간 초과! (Time Over)</h2>
-            <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 20px;">
-                제한 시간이 모두 지나갔습니다.<br>조금 더 빠르게 단어를 모아보세요!
-            </p>
-            <div style="display: flex; gap: 12px; justify-content: center;">
-                <button id="btn-retry-timeover" class="btn btn-primary" style="padding: 10px 24px;">🔄 다시 도전하기</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Wildcard Joker Gem Selection Modal -->
-    <div id="wildcard-modal" class="modal-overlay">
-        <div class="modal-box wildcard-box">
-            <div class="wildcard-icon">✨ 🃏 ✨</div>
-            <h2 style="color: #64ffda; margin-bottom: 6px;">마법의 힌트 보석!</h2>
-            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 14px;">
-                어떤 알파벳으로 변신할까요? 목표 단어 철자를 누르거나 원하는 알파벳을 입력하세요!
-            </p>
-            
-            <div class="wildcard-quick-title">🎯 목표 단어 추천 알파벳 (원클릭 선택):</div>
-            <div id="wildcard-quick-letters" class="wildcard-btn-group">
-                <!-- Injected via game.js -->
-            </div>
-
-            <div class="wildcard-custom-box">
-                <span style="font-size: 0.88rem; color: #cbd5e1;">또는 원하는 알파벳 1글자 직접 입력:</span>
-                <div style="display: flex; gap: 8px; justify-content: center; margin-top: 8px;">
-                    <input type="text" id="wildcard-custom-input" maxlength="1" placeholder="A~Z" class="form-input wildcard-input" autocomplete="off">
-                    <button type="button" id="btn-wildcard-custom-submit" class="btn btn-primary" style="padding: 6px 18px;">변신하기 ✨</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="js/audio.js"></script>
-    <script src="js/levels.js"></script>
-    <script src="js/board.js"></script>
-    <script src="js/teacher.js"></script>
-    <script src="js/game.js"></script>
+<!-- 토스트: 화면이 바뀌어도 남는다 (js/ui/toast.js) -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

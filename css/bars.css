@@ -1,0 +1,38 @@
+/* ===== 상단 바 3종 (topbar · subbar · hud)과 로고·모드 태그·플레이어 ===== */
+
+/* 공통 상단 (subbar): 로그인·게임 자리·대시보드·길을 잃었어요 */
+.subbar{position:relative;z-index:4;display:flex;align-items:center;gap:16px;padding:12px var(--gut);background:var(--paper-2);border-bottom:var(--line)}
+.subbar .player{margin-left:auto}
+.logo{font:400 28px/1 var(--f-title);letter-spacing:-.01em;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.logo .outline{color:var(--yellow);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;text-shadow:3px 3px 0 var(--ink)}
+.mode{font:700 12px/1 var(--f-dot);background:var(--ink);color:var(--yellow);padding:6px 8px;letter-spacing:.08em;white-space:nowrap}
+.btn--sm{white-space:nowrap}
+.player{display:flex;align-items:center;gap:10px;line-height:1.25}
+.player b{display:block;font-size:16px}
+.player small{display:block;font-size:13px;color:var(--ink-2);font-weight:600}
+
+/* 인트로 위 바 (topbar) */
+.topbar{position:relative;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px var(--gut)}
+.tag{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.tag .mode{background:var(--ink)}
+
+/* 게임 선택 위 바 (hud) */
+.hud{position:relative;z-index:4;display:flex;align-items:center;flex-wrap:wrap;gap:12px 18px;padding:10px var(--gut);background:var(--paper-2);border-bottom:var(--line)}
+.hud .logo{margin-right:auto}
+
+/* ===== 반응형 ===== */
+@media (max-width:900px){
+  .hud .logo{display:none}
+  .hud .player{margin-right:auto}
+}
+@media (max-width:640px){
+  .hud .player small,.hud .logo{display:none}
+  .hud .player{margin-right:auto}
+  .subbar .logo{font-size:22px}
+  .subbar .hide-sm{display:none}
+  .subbar .player small{display:none}
+}
+@media (max-width:480px){
+  .tag__text{display:none}
+  .back-text{display:none}
+}
