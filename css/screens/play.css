@@ -24,13 +24,19 @@
 .guide__body{display:grid;gap:var(--sp-5);padding:var(--sp-5)}
 .guide__chips{display:flex;flex-wrap:wrap;gap:var(--sp-2)}
 
-/* 위 바: 좁은 화면에서도 한 줄에 */
+/* 위 바: 좁은 화면에서도 한 줄에, 로고는 늘 보이게 */
+@media (max-width:767px){
+  .subbar--play .player small{display:none} /* 641–767px에서 이름 옆 설명이 두 줄로 접히지 않게 */
+}
 @media (max-width:640px){
   /* 플레이어 이름·설명은 화면에서 숨기고(아바타만) 화면 낭독기에는 남긴다 */
   .subbar--play .player p{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  /* 뒤로 버튼은 아이콘만 (이름은 aria-label) */
+  .subbar--play .back-text{display:none}
 }
 @media (max-width:480px){
-  .subbar--play .logo{display:none}
+  /* 게임 라벨 태그는 숨긴다 (게임 이름은 아래 창 제목에 있다) */
+  .subbar--play .mode{display:none}
 }
 
 /* ===== 반응형 ===== */

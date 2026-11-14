@@ -25,18 +25,25 @@
 .hud .logo{margin-right:auto}
 
 /* ===== 반응형 ===== */
+/* 로고는 어느 폭에서도 숨기지 않는다 (첫 화면 링크). 자리가 모자라면 글자를 줄이고 바를 두 줄로 접는다 */
 @media (max-width:900px){
-  .hud .logo{display:none}
+  /* 게임 선택 hud: 1줄 로고 + 로그아웃, 2줄 플레이어 + 별 + 연속 (::after가 줄을 끊는다) */
+  .hud{row-gap:6px}
+  .hud::after{content:"";order:2;flex-basis:100%}
+  .hud [data-action="logout"]{order:1}
+  .hud .player,.hud .chip{order:3}
   .hud .player{margin-right:auto}
 }
 @media (max-width:640px){
-  .hud .player small,.hud .logo{display:none}
-  .hud .player{margin-right:auto}
-  .subbar .logo{font-size:22px}
+  .hud .player small{display:none}
+  .subbar .logo,.hud .logo{font-size:22px}
+  /* 노란 외곽선·그림자도 글자 크기(28→22px)에 맞춰 줄인다 */
+  .subbar .logo .outline,.hud .logo .outline{-webkit-text-stroke-width:1.5px;text-shadow:2.5px 2.5px 0 var(--ink)}
   .subbar .hide-sm{display:none}
   .subbar .player small{display:none}
 }
 @media (max-width:480px){
   .tag__text{display:none}
   .back-text{display:none}
+  .hud{column-gap:10px}
 }

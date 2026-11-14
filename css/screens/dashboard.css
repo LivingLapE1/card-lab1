@@ -1,6 +1,11 @@
 /* ===== 5. 교사 대시보드 ===== */
 .dash{flex:1;width:100%;max-width:1440px;margin:0 auto;display:grid;grid-template-columns:210px minmax(0,1fr);gap:36px;padding:32px var(--gut) 64px;align-items:start}
 
+/* 위 바: 좁은 폭에서는 TEACHER 태그를 숨겨 "Fun English" 로고 전체가 들어가게 (선생님 표시는 오른쪽 이름에 있다) */
+@media (max-width:480px){
+  .subbar--dash .logo .mode{display:none}
+}
+
 /* 왼쪽 메뉴 */
 .side{position:sticky;top:24px;display:grid;gap:10px}
 .side a,.side button{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:50px;padding:10px 14px;border:var(--line);border-radius:var(--r-1);background:var(--paper-2);font-weight:700;text-align:left;text-decoration:none;transition:transform var(--t-fast),box-shadow var(--t-fast)}

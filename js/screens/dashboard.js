@@ -106,8 +106,8 @@ export function view({ home, report }) {
 
   return html`
 <div class="screen" data-screen="dashboard">
-  <header class="subbar">
-    ${logo({ teacher: true, hideEnglishOnSmall: true })}
+  <header class="subbar subbar--dash">
+    ${logo({ teacher: true })}
     ${player({ avatar: t.avatar, name: `${t.name} 선생님`, sub: `${cls.school} ${cls.label}` })}
     <button class="btn btn--sm" type="button" data-action="logout">${icon('i-door')}<span class="hide-sm" aria-hidden="true">로그아웃</span><span class="sr-only">로그아웃</span></button>
   </header>
