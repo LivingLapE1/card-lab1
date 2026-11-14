@@ -21,6 +21,15 @@
 * **게임 선택 화면**: 학생이 로그인하면 4가지 게임 중 하나를 골라 시작한다.
 * **교사용 대시보드**: 교사가 로그인하면 대시보드로 이동한다.
 
+## UI 디자인 (확정, 2026-11-14 사용자 승인)
+
+* 게임 제목은 **Fun English**.
+* 기준 문서는 [design/DESIGN.md](design/DESIGN.md), 시안은 [design/mockup.html](design/mockup.html)이다.
+  * 온라인 시안: https://eversunk2-tech.github.io/card-lab1/design/mockup.html
+* 스타일은 `ui-design-foundation`(기반)과 `ui-style-bold-retro`(볼드 레트로) 스킬을 따른다. 레트로 OS 창이 주 방향, 숫자·영문 라벨에만 픽셀 글꼴을 쓴다.
+* Plan·Build 단계에서는 DESIGN.md의 색·글꼴·그림자 토큰과 시안의 화면 구성(인트로, 학생 로그인, 교사 로그인, 게임 선택, 교사 대시보드)을 그대로 따른다.
+* 시안에 임시로 넣은 것은 Plan 단계에서 사용자와 확정한다: 마스코트 '비트', 보석 게임의 '단어 보석' 방식, 이번 주 단어 묶음(ANIMALS 20개), 학생·교사 이름과 기록 숫자.
+
 ## 공통 기능
 
 * 학생 로그인
