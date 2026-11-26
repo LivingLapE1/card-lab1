@@ -16,7 +16,7 @@
 
 ## 1. 한 줄 요약
 
-승인된 Fun English 시안(화면 5개)을 **GitHub Pages 첫 주소(https://eversunk2-tech.github.io/card-lab1/)에서 바로 열리는 진짜 웹 앱의 뼈대**로 옮기고, 게임 4종의 "곧 열려요" 자리 화면, 한곳에 모은 가짜 데이터, 나중에 어떤 백엔드든 끼울 수 있는 "데이터 한 겹"을 함께 만든다.
+승인된 Fun English 시안(화면 5개)을 **GitHub Pages 첫 주소(https://livinglape1.github.io/card-lab1/)에서 바로 열리는 진짜 웹 앱의 뼈대**로 옮기고, 게임 4종의 "곧 열려요" 자리 화면, 한곳에 모은 가짜 데이터, 나중에 어떤 백엔드든 끼울 수 있는 "데이터 한 겹"을 함께 만든다.
 
 ---
 
@@ -90,7 +90,7 @@
 
 ### 3.2 라우팅(화면 주소) 방식 — **사용자 승인 필요 (질문 2)**
 
-**추천: 해시 주소** — 예: `https://eversunk2-tech.github.io/card-lab1/#/select`
+**추천: 해시 주소** — 예: `https://livinglape1.github.io/card-lab1/#/select`
 
 이유
 
@@ -134,7 +134,7 @@ js/services/index.js  ──→  mock/      (지금: 가짜 데이터·가짜 �
 
 ### 3.5 배포 (GitHub Pages)
 
-- 저장소 `eversunk2-tech/card-lab1`, `main` 브랜치 루트를 그대로 내보낸다. 설정 변경 없음.
+- 저장소 `LivingLapE1/card-lab1`, `main` 브랜치 루트를 그대로 내보낸다. 설정 변경 없음.
 - 루트에 `index.html`이 생기면 첫 주소(`/card-lab1/`)에 README 대신 앱이 열린다.
 - 빈 파일 `.nojekyll`을 둔다 → Jekyll 변환 없이 파일을 그대로 내보낸다(배포가 빠르고 예측 가능). 시안 `/card-lab1/design/mockup.html`은 그대로 열린다.
 - 모든 경로는 **상대 경로**(`css/…`, `js/…`, `assets/…`)로 쓴다. `/`로 시작하는 경로는 `/card-lab1/` 아래에서 깨지므로 쓰지 않는다.
@@ -154,7 +154,7 @@ js/services/index.js  ──→  mock/      (지금: 가짜 데이터·가짜 �
 `★` = 이번에 새로 만드는 것. 나머지는 손대지 않는다.
 
 ```
-/  (저장소 루트 = https://eversunk2-tech.github.io/card-lab1/)
+/  (저장소 루트 = https://livinglape1.github.io/card-lab1/)
 ├── index.html                ★ 앱의 유일한 HTML. 글꼴·CSS 연결, SVG 그림 모음(인라인), 건너뛰기 링크, #app, 토스트 자리, js/app.js
 ├── .nojekyll                 ★ 빈 파일. Pages가 Jekyll 변환 없이 파일을 그대로 내보내게 함
 ├── .gitignore                ★ .env, .env.*, *.local.*, .DS_Store 를 저장소에서 뺌

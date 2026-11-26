@@ -2,7 +2,7 @@
 
 보석 매치(Match-3) 방식과 초등/기초 영어 단어 학습을 결합한 에듀테크 웹 게임입니다.
 
-🎮 **실시간 플레이 (GitHub Pages)**: [https://eversunk2-tech.github.io/card-lab1/jewel/](https://eversunk2-tech.github.io/card-lab1/jewel/)
+🎮 **실시간 플레이 (GitHub Pages)**: [https://livinglape1.github.io/card-lab1/jewel/](https://livinglape1.github.io/card-lab1/jewel/)
 
 ---
 
@@ -27,6 +27,6 @@
 ---
 
 ## 🚀 바로 실행하는 방법
-- **온라인 접속**: [https://eversunk2-tech.github.io/card-lab1/jewel/](https://eversunk2-tech.github.io/card-lab1/jewel/)
+- **온라인 접속**: [https://livinglape1.github.io/card-lab1/jewel/](https://livinglape1.github.io/card-lab1/jewel/)
 - **로컬 실행**: `index.html` 파일을 브라우저로 열기만 하면 서버 없이 즉시 구동됩니다.
 - PC 마우스 클릭/드래그 및 태블릿/스마트폰 터치 스와이프를 모두 지원합니다.

@@ -2,7 +2,7 @@
 
 Fun English의 **01 MEMORY (카드 뒤집기)** 게임입니다. 영어·한글·그림 카드 3장을 찾아 맞춥니다.
 
-- 게임 주소 (GitHub Pages): `https://eversunk2-tech.github.io/card-lab1/memory/?nick=학생이름`
+- 게임 주소 (GitHub Pages): `https://livinglape1.github.io/card-lab1/memory/?nick=학생이름`
 - 메인 화면의 카드 뒤집기 START 버튼은 위 주소로 연결하면 됩니다. 함께 넘길 수 있는 값(`practice`, `sfx`, `bgm`)은 아래 "메인 페이지와 연결하기"를 보세요.
 - 이 폴더 안의 파일만 쓰므로 저장소의 다른 게임(보석 게임 등)과 겹치지 않습니다.
 

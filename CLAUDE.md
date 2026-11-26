@@ -17,6 +17,8 @@
 
 ## 공동 작업 구조 (2026-11-14)
 
+* 저장소: **`LivingLapE1/card-lab1`** (조직). 2026-11-14 개인 계정 `eversunk2-tech`에서 조직으로 옮겨졌다.
+* 사이트 주소: **https://livinglape1.github.io/card-lab1/** — 옛 주소 `eversunk2-tech.github.io/card-lab1`은 옮긴 뒤로 404("Site not found")다. 문서·링크에는 새 주소만 쓴다.
 * 저장소 루트는 **Fun English 메인 웹 앱**(인트로, 로그인, 게임 선택, 교사 대시보드) 자리다. 게임은 루트에 두지 않는다.
 * 게임은 각자 **자기 폴더**에 둔다. 게임 선택 화면의 START가 그 폴더 주소로 연결된다.
 
@@ -24,7 +26,7 @@
 |---|---|---|---|
 | 1. 카드 뒤집기 메모리 게임 | `memory/` | winter0402 | `…/card-lab1/memory/?nick=학생이름` |
 | 2. 보석 게임 (Word Jewel Quest) | `jewel/` | Hyunsik-Jo20 | `…/card-lab1/jewel/` |
-| 3. 듣고 고르기 | (아직 없음, 자리 화면) | | |
+| 3. 듣고 고르기 | `listen/` (PR #2 대기 중, 아직 자리 화면) | youngsoopark | `…/card-lab1/listen/` |
 | 4. 스피드 퀴즈 | (아직 없음, 자리 화면) | | |
 
 * 공동 작업자는 `main`에 바로 올리지 않고 **브랜치를 만들어 PR로** 올린다. 자기 게임 폴더 밖의 파일은 바꾸지 않는다.
@@ -40,7 +42,7 @@
 
 * 게임 제목은 **Fun English**.
 * 기준 문서는 [design/DESIGN.md](design/DESIGN.md), 시안은 [design/mockup.html](design/mockup.html)이다.
-  * 온라인 시안: https://eversunk2-tech.github.io/card-lab1/design/mockup.html
+  * 온라인 시안: https://livinglape1.github.io/card-lab1/design/mockup.html
 * 스타일은 `ui-design-foundation`(기반)과 `ui-style-bold-retro`(볼드 레트로) 스킬을 따른다. 레트로 OS 창이 주 방향, 숫자·영문 라벨에만 픽셀 글꼴을 쓴다.
 * Plan·Build 단계에서는 DESIGN.md의 색·글꼴·그림자 토큰과 시안의 화면 구성(인트로, 학생 로그인, 교사 로그인, 게임 선택, 교사 대시보드)을 그대로 따른다.
 * 시안에 임시로 넣은 것은 Plan 단계에서 사용자와 확정한다: 마스코트 '비트', 보석 게임의 '단어 보석' 방식, 이번 주 단어 묶음(ANIMALS 20개), 학생·교사 이름과 기록 숫자.
