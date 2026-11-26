@@ -26,7 +26,7 @@
 |---|---|---|---|
 | 1. 카드 뒤집기 메모리 게임 | `memory/` | winter0402 | `…/card-lab1/memory/?nick=학생이름` |
 | 2. 보석 게임 (Word Jewel Quest) | `jewel/` | Hyunsik-Jo20 | `…/card-lab1/jewel/` |
-| 3. 듣고 고르기 | `listen/` (PR #2 대기 중, 아직 자리 화면) | youngsoopark | `…/card-lab1/listen/` |
+| 3. 듣고 고르기 | `listen/` (PR #2, 2026-11-26 합침) | youngsoopark-edu | `…/card-lab1/listen/?nick=학생이름` |
 | 4. 스피드 퀴즈 | (아직 없음, 자리 화면) | | |
 
 * 공동 작업자는 `main`에 바로 올리지 않고 **브랜치를 만들어 PR로** 올린다. 자기 게임 폴더 밖의 파일은 바꾸지 않는다.
